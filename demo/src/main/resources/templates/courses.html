@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="ISO-8859-1">
+        <title>Gestor de Cursos</title>
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <!-- Brand -->
+            <a class="navbar-brand" th:href="@{/students}">Gestor de Cursos</a>
+
+            <!-- Toggler/Collapse Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/students}">Estudiantes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/courses}">Cursos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <h1>List Courses</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <a th:href="@{/courses/new}" class="btn btn-primary btn-sm mb-3">Add Course</a>
+                </div>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Course Name</th>
+                        <th>Course Modules</th>
+                        <th>Course Credits</th>
+                        <th>Course Fee</th>
+                        <th>Students</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="course: ${courses}">
+                        <td th:text="${course.name}"></td>
+                        <td th:text="${course.modules}"></td>
+                        <td th:text="${course.credits}"></td>
+                        <td th:text="${course.fee}"></td>
+                        <td> 
+                            <th:block th:each="student,iter: ${course.students}">
+                                <label th:text="${student.firstName}"/>
+                                <th:block th:if="${!iter.last}">, </th:block>
+                            </th:block>
+                        </td>    
+                        <td>
+                            <a th:href="@{/courses/edit/{id}(id=${course.id})}"
+                               class="btn btn-primary">Update</a>
+                            <a th:href="@{/courses/{id}(id=${course.id})}"
+                               class="btn btn-danger">Delete</a>
+                        </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>
